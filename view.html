@@ -19,7 +19,12 @@
   <body>
     <!--header : common/hearder.html-->
     <header class="header" id="header"> 
-      <div class="header__event"></div>        
+      <!--header__event-->
+      <div class="header__event">
+        리액트 스터디 2기 <span>같은 꿈을 꾸는 사람들을 모집합니다</span> 
+        <p>기간: 2024.08.11~2024.09.15</p>
+    </div>
+    <!--//header__event-->          
       <div class="header__container wrap">            
           <h1><a href="/">Noona<span>Book</span>Store</a></h1>
           <!--search-->
@@ -31,13 +36,25 @@
       </div>      
     </header> 
     <!--//header-->
+    <!--mobile-->
+    <div class="mobile__button--open">
+      <span  onclick="openNav()"><i class="fa-solid fa-bars"></i></span>
+  </div>    
+  <div class="mobile__menu" id="mobileMenu">        
+      <div class="nav__menu wrap">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+          <div class="nav__menu__item active" id="nav-item-1">국내도서</div>        
+          <div class="nav__menu__item" id="nav-item-2">외국도서</div>        
+          <div class="nav__menu__item" id="nav-item-3">eBook</div>
+      </div>
+    </div>
+    <!--//mobile-->
     <!--nav : common/nav.html-->
     <nav id="nav">
       <div class="nav__menu wrap">
           <div class="nav__menu__item active" id="nav-item-1">국내도서</div>        
           <div class="nav__menu__item" id="nav-item-2">외국도서</div>        
           <div class="nav__menu__item" id="nav-item-3">eBook</div>
-          <div class="nav__menu__item" id="dvd-nav-btn" >DVD</div>
       </div>
   </nav>
     <!--//nav--> 
