@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="CSS/main.css">
+    <link rel="stylesheet" href="CSS/product.css"> 
+    <link rel="stylesheet" href="CSS/reset.css"> 
+    <link rel="stylesheet" href="CSS/search.css">    
+    <link rel="stylesheet" href="CSS/style.css"> 
+    <link rel="stylesheet" href="CSS/media.css">
+    <title>noonaBookStore</title> 
+</head>
+  <body>
+    <!--header : common/hearder.html-->
+    <header class="header" id="header"> 
+      <!--header__event-->
+      <div class="header__event">
+        리액트 스터디 2기 <span>같은 꿈을 꾸는 사람들을 모집합니다</span> 
+        <p>기간: 2024.08.11~2024.09.15</p>
+    </div>
+    <!--//header__event-->          
+      <div class="header__container wrap">            
+          <h1><a href="/">Noona<span>Book</span>Store</a></h1>
+          <!--search-->
+          <div class="search">
+            <input type="text" class="search__input" id="customTextInput" placeholder="검색어를 입력하세요">
+            <button id="customSearchBtn" class="search__button" title="검색"></button>
+        </div> 
+        <!--//search-->                  
+      </div>      
+    </header> 
+    <!--//header-->
+    <!--mobile-->
+    <div class="mobile__button--open">
+      <span  onclick="openNav()"><i class="fa-solid fa-bars"></i></span>
+  </div>    
+  <div class="mobile__menu" id="mobileMenu">        
+      <div class="nav__menu wrap">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+          <div class="nav__menu__item active" id="nav-item-1">국내도서</div>        
+          <div class="nav__menu__item" id="nav-item-2">외국도서</div>        
+          <div class="nav__menu__item" id="nav-item-3">eBook</div>
+      </div>
+    </div>
+    <!--//mobile-->
+    <!--nav : common/nav.html-->
+    <nav id="nav">
+      <div class="nav__menu wrap">
+          <div class="nav__menu__item active" id="nav-item-1">국내도서</div>        
+          <div class="nav__menu__item" id="nav-item-2">외국도서</div>        
+          <div class="nav__menu__item" id="nav-item-3">eBook</div>
+      </div>
+  </nav>
+    <!--//nav--> 
+    <!--container-->
+    <section class="container product__container wrap">
+      <article class="book__detail">
+        <!--h2 id="detail-title">도서/DVD 상세 정보<h2-->
+        <div id="detail-board">
+          <div class="detail__wrap">
+            <div class="detail__img">
+              <img id="detail-img">
+            </div>
+            <div class="detail__text">
+              <p><!-- 카테고리 --> <em id="detail-info-cate"></em></p>
+              <p class="detail__book__title"><!-- 제목 --> <em id="detail-info-title"></em></p>
+              <p>저자 <em id="detail-info-author"></em></p>
+              <p>쪽수 <em id="detail-info-page"></em></p>
+              <p>원제 <em id="detail-info-otitle"></em></p>
+              <p>출판사 <em id="detail-info-pub"></em></p>
+              <!-- <p>출판일/출시일 <em id="detail-info-date"></em></p> -->
+              <p>ISBN <em id="detail-info-isbn"></em></p>
+            </div>
+            
+          </div>
+          <div class="detail__descr" id="detail-desc">
+            <h3>줄거리</h3>
+            <p id="detail-book-desc"></p>
+          </div>
+          <div class="detail__buy">
+            <a id="detail-book-buy-btn-kakao" href="#" class="button" target="_blank">카카오책에서 보기</a>
+            <a id="detail-book-buy-btn-aladin" href="#" class="button" target="_blank">알라딘에서 구매하기</a>
+            <a id="detail-book-buy-btn-kyobo" href="#" class="button" target="_blank">교보문고에서 구매하기</a>
+            <a id="detail-book-buy-btn-yes24" href="#" class="button" target="_blank">yes24에서 구매하기</a>
+          </div>
+        </div>
+      </article>
+    </section>
+    <!--//container-->
+    <footer id="footer"></footer>
+    <script src="/JS/search.js"></script>
+    <script src="/JS/common.js"></script>
+    <script src="/JS/detail.js"></script>
+    <script src="/JS/main.js"></script>
+    <script src="/JS/product.js"></script>
+  </body>
+</html>

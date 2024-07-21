@@ -1,0 +1,79 @@
+
+/*추천DVD*/
+.dvd__best {    
+    display: flex;
+    flex-wrap: nowrap;   
+}
+.dvd__best .dvd__item{
+    width: 25%; 
+    text-align: center;
+}
+.dvd__best .dvd__img{
+    display: block;
+    min-width: 100px;
+    min-height: 140px;
+    margin-right: 1.2rem;
+    text-align: center; 
+}
+.dvd__best .dvd__img img{
+    max-width: 100%;
+    max-height: 150px;
+    object-fit: cover;
+}
+.dvd__best .dvd__text dt{
+    line-height: 140%;
+    margin-bottom: 20px;
+}
+.dvd__best .dvd__text dd{
+    display: none;
+}
+/*DVD*/
+.dvd__list{
+    padding: 50px 0;
+    display: flex;
+    flex-wrap: wrap;          
+}
+.dvd__list .dvd__item{
+   width: 48%;  
+   display: flex;
+   border: 1px solid #e3e2e2;
+   padding: 20px;
+   border-radius: 20px;
+   margin:1%;  
+   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.dvd__list .dvd__img{
+    display: block;
+    min-width: 100px;
+    margin-right: 1.2rem; 
+}
+.dvd__list .dvd__img img{
+    width: 100%;
+    max-height: 295px;    
+    object-fit: cover;
+}
+.dvd__list .dvd__text { 
+    width: calc(100% - 100px);  
+    color: #333;
+    font-size: 1.0625rem; 
+    font-weight: 500;    
+}
+.dvd__list .dvd__text dt{
+    line-height: 140%;
+    margin-bottom: 20px;
+}
+.dvd__list .dvd__text dd{
+    width: 95%;
+    color: #808080;
+    font-size: 0.875rem;
+    font-weight: 300;
+    word-break: keep-all;
+    margin-bottom: 0.7rem;
+}
+.dvd__list .dvd__text .dvd__author{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp:2;
+}

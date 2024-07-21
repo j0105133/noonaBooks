@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="CSS/main.css">
+    <link rel="stylesheet" href="CSS/product.css"> 
+    <link rel="stylesheet" href="CSS/reset.css"> 
+    <link rel="stylesheet" href="CSS/search.css">    
+    <link rel="stylesheet" href="CSS/style.css"> 
+    <link rel="stylesheet" href="CSS/media.css"> 
+    <title>noonaBookStore</title> 
+</head>
+<body>
+    <!--header : common/hearder.html-->
+    <header class="header" id="header"> 
+        <div class="header__event"></div>        
+        <div class="header__container wrap">            
+            <h1><a href="/">Noona<span>Book</span>Store</a></h1>
+            <!--search-->
+            <div class="search" id="customSearchForm">
+                <input type="text" class="search__input" id="customTextInput" placeholder="검색어를 입력하세요">
+                <button id="customSearchBtn" class="search__button" title="검색"></button>
+            </div> 
+            <!--//search-->                   
+        </div>      
+    </header> 
+    <!--//header-->
+    <!--nav : common/nav.html-->
+    <nav id="nav">
+        <div class="nav__menu wrap">
+            <div class="nav__menu__item active" id="nav-item-1" data-link="menu1">국내도서</div>        
+            <div class="nav__menu__item" id="nav-item-2">외국도서</div>        
+            <div class="nav__menu__item" id="nav-item-3">eBook</div>
+        </div>
+    </nav>
+    <!--//nav--> 
+    <!--container-->
+    <section class="container product__container wrap">
+        <article class="book__detail mgT40">
+            <h2>도서 상세 정보</h2>
+            <div id="detail-board">
+                <div class="detail__wrap">
+                    <div class="detail__img">
+                        <img id="detail-img" alt="Book Thumbnail">
+                    </div>
+                    <div class="detail__text">
+                        <p><em id="detail-info-cate"></em></p>
+                        <p class="detail__book__title"><em id="detail-info-title"></em></p>
+                        <p>저자 <em id="detail-info-author"></em></p>
+                        <p>쪽수 <em id="detail-info-page"></em></p>
+                        <p>원제 <em id="detail-info-otitle"></em></p>
+                        <p>출판사 <em id="detail-info-pub"></em></p>
+                        <p>ISBN <em id="detail-info-isbn"></em></p>
+                    </div>
+                </div>
+                <div class="detail__descr">
+                    <h3>줄거리</h3>
+                    <p id="detail-book-desc"></p>
+                </div>
+                <div class="detail__buy">
+                    <a id="detail-book-buy-btn-kakao" href="#" class="button" target="_blank">카카오책에서 보기</a>
+                    <a id="detail-book-buy-btn-aladin" href="#" class="button" target="_blank">알라딘에서 구매하기</a>
+                    <a id="detail-book-buy-btn-kyobo" href="#" class="button" target="_blank">교보문고에서 구매하기</a>
+                    <a id="detail-book-buy-btn-yes24" href="#" class="button" target="_blank">yes24에서 구매하기</a>
+                </div>
+            </div>
+        </article>
+    </section>
+    <!--//container-->
+    <footer id="footer"></footer>
+    <script src="/JS/search.js"></script>
+    <script src="/JS/common.js"></script>
+    <script src="/JS/detail.js"></script>
+    <script src="/JS/main.js"></script>
+    <script src="/JS/product.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // URL에서 isbn 파라미터 추출
+            const urlParams = new URLSearchParams(window.location.search);
+            const isbn = decodeURIComponent(urlParams.get('isbn')); // 디코딩된 ISBN 값 사용
+
+            if (isbn) {
+                fetchBookDetail(isbn);
+            }
+
+            function fetchBookDetail(isbn) {
+                $.ajax({
+                    method: "GET",
+                    url: `https://dapi.kakao.com/v3/search/book?target=isbn&query=${isbn}`,
+                    headers: { Authorization: `KakaoAK f4aacc94a442dd1e084f37ce4cad76cb` }
+                })
+                .done(function(data) {
+                    if (data.documents && data.documents.length > 0) {
+                        const book = data.documents[0];
+                        displayBookDetail(book);
+                        console.log("sdsdsd", data);
+                    } else {
+                        $('#detail-board').html('<p>책 정보를 찾을 수 없습니다.</p>');
+                    }
+                });
+            }
+
+            function displayBookDetail(book) {
+                console.log(book.url, "bookurl")
+                $('#detail-img').attr('src', book.thumbnail || 'default-thumbnail.jpg');
+                $('#detail-info-cate').text(book.category || "카테고리 정보 없음");
+                $('#detail-info-title').text(book.title);
+                $('#detail-info-author').text(book.authors.join(', '));
+                $('#detail-info-page').text(book.page || "페이지 정보 없음");
+                $('#detail-info-otitle').text(book.translators.join(', ') || "원제 정보 없음");
+                $('#detail-info-pub').text(book.publisher);
+                $('#detail-info-isbn').text(book.isbn);
+                $('#detail-book-desc').text(book.contents);
+
+                // 구매 버튼 링크 설정
+                $('#detail-book-buy-btn-kakao').attr('href', book.url);
+                
+                $('#detail-book-buy-btn-aladin').attr('href', `https://www.aladin.co.kr/shop/wproduct.aspx?ISBN=${isbn}`);
+                $('#detail-book-buy-btn-kyobo').attr('href', `https://www.kyobobook.co.kr/product/detailViewKor.laf?barcode=${isbn}`);
+                $('#detail-book-buy-btn-yes24').attr('href', `http://www.yes24.com/Product/Goods/${isbn}`);
+            }
+        });
+    </script>
+  </body>
+</html>
