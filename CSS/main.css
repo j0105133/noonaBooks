@@ -1,0 +1,25 @@
+.tab__book__display__none {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+.read__more__btn__box {
+  text-align: center;
+  margin-top: 25px;
+}
+
+#read-more {
+  cursor: pointer;
+  font-family: 'GmarketSansMedium';
+  background-color: #498bd9;
+  color: white;
+  padding: 10px 20px;
+  font-size: 17px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}

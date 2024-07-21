@@ -1,11 +1,141 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="CSS/main.css">
+    <link rel="stylesheet" href="CSS/product.css"> 
+    <link rel="stylesheet" href="CSS/reset.css"> 
+    <link rel="stylesheet" href="CSS/search.css">    
+    <link rel="stylesheet" href="CSS/style.css"> 
+    <link rel="stylesheet" href="CSS/media.css">
+    <title>noonaBookStore</title> 
 </head>
-<body>
-    
+<body>    
+    <!--header : common/hearder.html-->
+    <header class="header" id="header"> 
+        <!--header__event-->
+        <div class="header__event">
+            리액트 스터디 2기 <span>같은 꿈을 꾸는 사람들을 모집합니다</span> 
+            <p>기간: 2024.08.11~2024.09.15</p>
+        </div>
+        <!--//header__event-->          
+        <div class="header__container wrap">            
+            <h1><a href="/">Noona<span>Book</span>Store</a></h1>
+            <!--search-->
+            <div class="search">
+                <input type="text" class="search__input" id="customTextInput" placeholder="검색어를 입력하세요">
+                <button id="customSearchBtn" class="search__button" title="검색"></button>
+            </div> 
+            <!--//search-->               
+        </div>          
+    </header> 
+    <!--//header-->
+    <!--mobile-->
+    <div class="mobile__button--open">
+        <span  onclick="openNav()"><i class="fa-solid fa-bars"></i></span>
+    </div>    
+    <div class="mobile__menu" id="mobileMenu">        
+        <div class="nav__menu wrap">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <div class="nav__menu__item active" id="nav-item-1">국내도서</div>        
+            <div class="nav__menu__item" id="nav-item-2">외국도서</div>        
+            <div class="nav__menu__item" id="nav-item-3">eBook</div>
+        </div>
+      </div>
+      <!--//mobile-->
+    <!--nav : common/nav.html-->
+    <nav id="nav">
+        <div class="nav__menu wrap">
+            <div class="nav__menu__item active" id="nav-item-1" data-link="menu1">국내도서</div>        
+            <div class="nav__menu__item" id="nav-item-2">외국도서</div>        
+            <div class="nav__menu__item" id="nav-item-3">eBook</div>
+            <div class="nav__menu__item" id="dvd-nav-btn" data-menu="dvd">DVD</div>
+        </div>
+    </nav>
+    <!--//nav--> 
+    <!--container-->
+    <section class="container wrap">        
+        <!--bookList-->
+        <h2 class="container__title">주목할만한 신간</h2>
+        <article class="book__container bookSwiper">
+            <div class="book_list--roll swiper-wrapper" id="book_list--roll">            
+            </div>   
+        </article>
+        <!--bookList-->
+        <div class="banner_container mgT40">
+            <ul class="banner__list">
+                <li><a href="https://codingnoona.thinkific.com/courses/f3851d" target="_blank">첫단계<span>HTML/CSS</span></a></li>
+                <li><a href="https://codingnoona.thinkific.com/courses/2" target="_blank">실전 웹사이트 만들기<span>Javascript</span></a></li>
+                <li><a href="https://codingnoona.thinkific.com/courses/3" target="_blank">프론트엔드 개발자로 가는 마지막 단계<span>React</span></a></li>
+            </ul>
+        </div>
+        <!--theme01-->
+        <article class="book__theme mgT40">
+            <div class="book__theme--album">
+                <h2>베스트셀러</h2>
+                <div class="book__tab">
+                    <div class="tab__item tab__item--active" data-page="1">소설</div>
+                    <div class="tab__item" data-page="2">에세이</div>
+                    <div class="tab__item" data-page="3">실용</div>
+                </div>
+                <div class="book__list" id="book__list">          
+                    
+                </div>
+            </div>            
+        </article>
+        <!--theme01-->
+        <!--theme02-->
+        <article class="book__theme mgT40">
+            <div class="book__theme--list">
+                <h2>편집자 추천</h2>                
+                <div class="theme__list" id="theme__list"></div>
+                <div class="read__more__btn__box">
+                    <button type="button" id="read-more">도서 더보기</button>
+                </div>
+            </div>            
+        </article>
+        <!--theme02-->
+    </section>
+    <!--//container--> 
+    <!--footer : common/footer.html-->
+    <footer id="footer">
+        © Copyright 
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="/JS/common.js"></script>
+    <script src="/JS/main.js"></script>
+    <script src="/JS/product.js"></script>
 </body>
 </html>
+
+<script>
+    $(document).ready(function() {
+        // 검색 버튼 클릭 이벤트
+        $('#customSearchBtn').click(function() {
+            searchBooks();
+        });
+    
+        // Enter 키 이벤트
+        $('#customTextInput').keypress(function(event) {
+            if (event.key === "Enter") {
+                searchBooks();
+            }
+        });
+    
+        // 검색 함수
+        function searchBooks() {
+            const inputValue = $('#customTextInput').val();
+            const newUrl = `search.html?query=${encodeURIComponent(inputValue)}`;
+            window.location.href = newUrl;
+            $('#customTextInput').val(''); // 입력 필드 비우기
+        }
+
+        
+    });
+    </script>
