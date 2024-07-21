@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="CSS/main.css">
+    <link rel="stylesheet" href="CSS/product.css"> 
+    <link rel="stylesheet" href="CSS/reset.css"> 
+    <link rel="stylesheet" href="CSS/search.css">    
+    <link rel="stylesheet" href="CSS/style.css"> 
+    <link rel="stylesheet" href="CSS/media.css"> 
+    <title>noonaBookStore</title>
+    <style>
+        /* search.html에 적용할 추가 스타일 */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!--header : common/hearder.html-->
+    <header class="header" id="header"> 
+      <!--header__event-->
+      <div class="header__event">
+          리액트 스터디 2기 <span>같은 꿈을 꾸는 사람들을 모집합니다</span> 
+          <p>기간: 2024.08.11~2024.09.15</p>
+      </div>
+      <!--//header__event-->        
+      <div class="header__container wrap">            
+          <h1><a href="/">Noona<span>Book</span>Store</a></h1>
+          <!--search-->
+          <div class="search" id="customSearchForm">
+            <input type="text" class="search__input" id="customTextInput" placeholder="검색어를 입력하세요">
+            <button id="customSearchBtn" class="search__button" title="검색"></button>
+        </div> 
+        <!--//search-->            
+      </div> 
+    </header> 
+    <!--//header-->
+    <!--mobile-->
+    <div class="mobile__menu">
+      <span class="mobile__button--open" onclick="openNav()">open</span>
+      <div class="nav__menu wrap">
+          <div class="nav__menu__item active" id="nav-item-1">국내도서</div>        
+          <div class="nav__menu__item" id="nav-item-2">외국도서</div>        
+          <div class="nav__menu__item" id="nav-item-3">eBook</div>
+          <div class="nav__menu__item" id="dvd-nav-btn" data-menu="dvd">DVD</div>
+      </div>
+    </div>
+    <!--//mobile-->
+    <!--nav : common/nav.html-->
+    <nav id="nav">
+      <span class="mobile__button--open" onclick="openNav()">open</span>
+      <div class="nav__menu wrap">
+          <div class="nav__menu__item active" id="nav-item-1">국내도서</div>        
+          <div class="nav__menu__item" id="nav-item-2">외국도서</div>        
+          <div class="nav__menu__item" id="nav-item-3">eBook</div>
+          <div class="nav__menu__item" id="dvd-nav-btn" data-menu="dvd">DVD</div>
+      </div>
+    </nav>
+    <!--//nav--> 
+    <!--container-->
+    <section class="search__container wrap">
+        <article class="book__theme mgT40">
+            <div class="book__theme--list">
+                <h2 id="customSearchTitle"></h2>
+                <div id="customBookBoard"></div>
+                <div id="customPagination" class="customPagination"></div>
+            </div>
+
+            <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+            <script>
+              $(document).ready(function() {
+                // nav__menu wrap 요소 숨기기
+                $('#nav').addClass('hidden');
+
+                // URL에서 query 파라미터 추출
+                const urlParams = new URLSearchParams(window.location.search);
+                const query = urlParams.get('query');
+
+                if (query) {
+                  performSearch(query);
+                }
+
+                // 검색어를 제목으로 표시
+                document.getElementById('customSearchTitle').innerText = `"${query}"에 관련된 책 리스트 입니다`;
+
+                // 검색 버튼 클릭 이벤트
+                $('#customSearchBtn').click(function() {
+                  searchBooks();
+                });
+
+                // Enter 키 이벤트
+                $('#customTextInput').keypress(function(event) {
+                  if (event.key === "Enter") {
+                    searchBooks();
+                  }
+                });
+                // 검색 함수
+                function searchBooks() {
+                  const inputValue = $('#customTextInput').val();
+                  const newUrl = `${window.location.pathname}?query=${encodeURIComponent(inputValue)}`;
+                  window.history.pushState({ path: newUrl }, '', newUrl);
+                  performSearch(inputValue);
+                  $('#customTextInput').val(''); // 입력 필드 비우기
+                }
+
+                function performSearch(query) {
+                  $.ajax({
+                    method: "GET",
+                    url: "https://dapi.kakao.com/v3/search/book",
+                    data: { query: query },
+                    headers: { Authorization: `KakaoAK f4aacc94a442dd1e084f37ce4cad76cb` }
+                  })
+                  .done(function(data) {
+                    console.log(data);
+                    const bookList = data.documents;
+                    localStorage.setItem('bookList', JSON.stringify(bookList));
+                    displayBooks(bookList, 1);
+                    setupPagination(bookList.length, 1);
+                    document.getElementById('customSearchTitle').innerText = `"${query}"에 관련된 책 리스트 입니다`;
+                    window.scrollTo({ top: 0, behavior: 'smooth' }); // 페이지 상단으로 스크롤
+                  });
+                }
+
+                function displayBooks(bookList, page) {
+                  const booksPerPage = 5;
+                  const startIndex = (page - 1) * booksPerPage;
+                  const endIndex = Math.min(startIndex + booksPerPage, bookList.length);
+
+                  let bookHTML = bookList.slice(startIndex, endIndex).map(book => {
+                    const isbnArray = book.isbn.split(' ');
+                    const isbn13 = isbnArray.find(isbn => isbn.length === 13);
+                    return `
+                    <div class="customBook" onclick="goToDetail('${encodeURIComponent(isbn13)}')"> <!-- 책을 클릭하면 goToDetail 함수 호출 -->
+                      <img src="${book.thumbnail}">
+                      <div class="customBookInfo">
+                        <a href="javascript:void(0);"><h4>${book.title}</h4></a>
+                        <p>${book.contents.length > 100 ? book.contents.substring(0, 100) + "..." : book.contents}</p>
+                        <div>저자: ${book.authors.join(', ')}</div>
+                        <div>출판사: ${book.publisher}</div>
+                        <div>가격: ${book.price}원</div>
+                      </div>
+                    </div>`;
+                  }).join('');
+                  document.getElementById('customBookBoard').innerHTML = bookHTML;
+                }
+
+                function setupPagination(totalBooks, currentPage) {
+                  console.log("totalBooks",totalBooks)
+                  const booksPerPage = 5;
+                  const totalPages = Math.ceil(totalBooks / booksPerPage);
+                  const paginationContainer = document.getElementById('customPagination');
+                  const pagesToShow = 5;
+                  const pageGroup = Math.ceil(currentPage / pagesToShow);
+
+                  let paginationHTML = '';
+
+                  if (pageGroup > 1) {
+                    paginationHTML += `<a href="javascript:void(0);" onclick="navigateToPage(1)"><<</a>`;
+                    paginationHTML += `<a href="javascript:void(0);" onclick="navigateToPage(${(pageGroup - 1) * pagesToShow})"><</a>`;
+                  }
+
+                  for (let i = (pageGroup - 1) * pagesToShow + 1; i <= Math.min(pageGroup * pagesToShow, totalPages); i++) {
+                    paginationHTML += `<a href="javascript:void(0);" class="${i === currentPage ? 'active' : ''}" onclick="navigateToPage(${i})">${i}</a>`;
+                  }
+
+                  if (pageGroup * pagesToShow < totalPages) {
+                    paginationHTML += `<a href="javascript:void(0);" onclick="navigateToPage(${(pageGroup * pagesToShow) + 1})">></a>`;
+                    paginationHTML += `<a href="javascript:void(0);" onclick="navigateToPage(${totalPages})">>></a>`;
+                  }
+
+                  paginationContainer.innerHTML = paginationHTML;
+                }
+
+                window.navigateToPage = function(page) {
+                  let bookList = JSON.parse(localStorage.getItem('bookList'));
+                  if (bookList && bookList.length > 0) {
+                    displayBooks(bookList, page);
+                    setupPagination(bookList.length, page);
+                    window.scrollTo({ top: 0, behavior: 'smooth' }); // 페이지 상단으로 스크롤
+                  }
+                };
+
+                window.goToDetail = function(isbn) { // 상세 페이지로 이동하는 함수
+                  window.location.href = `searchDetail.html?isbn=${isbn}`;
+                  //window.location.href = `searchView.html?isbn=${isbn}`
+                };
+              });
+            </script>
+
+        </article>
+    </section>
+    <!--//container-->
+    <footer id="footer"></footer>
+    <script src="/JS/search.js"></script>
+    <script src="/JS/common.js"></script>
+    <script src="/JS/main.js"></script>
+    <script src="/JS/product.js"></script>
+</body>
+</html>
