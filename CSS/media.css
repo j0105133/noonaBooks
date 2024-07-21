@@ -98,15 +98,22 @@
         overflow-x: hidden;
         transition: 0.5s;
         padding-top: 60px;
+        background: url(../images/bg.jpg) center top no-repeat;
+        background-size: cover;
     }
     .mobile__menu div {
         padding: 8px 8px 8px 20px;
         text-decoration: none;
-        font-size: 25px;
+        font-size: 1.3rem;
         color: #818181;
         display: block;
         transition: 0.3s;
         cursor: pointer;
+        color: #fff;
+        margin-bottom: 10px;
+      }
+      .mobile__menu div:hover{
+        color: #888;
       }
     .closebtn{    
         position: absolute;
@@ -158,6 +165,9 @@
     }
     .banner__list li span {        
         font-size: 1.5rem;
+    }
+    footer .team span{        
+       display: block;
     }
 
     
